@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Segredos
+.env
+
+# Gerados
+logs/
+exports/*.xlsx
+exports/*.html
+exports/*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
