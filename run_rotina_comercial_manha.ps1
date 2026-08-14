@@ -1,4 +1,5 @@
 $ErrorActionPreference = 'Stop'
+. "$env:LOCALAPPDATA\Scripts\skip-fds-helibombas.ps1"
 
 $workspace = (Resolve-Path $PSScriptRoot).Path
 $scriptPath = Join-Path $workspace "rotina_comercial_manha.py"
@@ -11,6 +12,7 @@ if (-not (Test-Path $logsDir)) {
 $logFile = Join-Path $logsDir "rotina_comercial_manha.log"
 $maxTentativas = 3
 $esperaSegundos = 15
+$pythonw = & "$env:LOCALAPPDATA\Scripts\get-pythonw.ps1"
 
 try {
     Set-Location -Path $workspace
@@ -21,7 +23,7 @@ try {
         $stamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         "[$stamp] START rotina comercial manha (tentativa $tentativa/$maxTentativas)" | Out-File -FilePath $logFile -Append -Encoding utf8
 
-        py -3 $scriptPath --enviar-equipe 2>&1 | Out-File -FilePath $logFile -Append -Encoding utf8
+        & $pythonw $scriptPath --enviar-equipe --enviar 2>&1 | Out-File -FilePath $logFile -Append -Encoding utf8
         $exitCode = $LASTEXITCODE
 
         if ($exitCode -eq 0) {
