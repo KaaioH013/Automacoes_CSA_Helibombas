@@ -2,7 +2,7 @@
 
 Uso:
   python rotina_comercial_manha.py
-  python rotina_comercial_manha.py --enviar-equipe          # cada um recebe o seu
+  python rotina_comercial_manha.py --enviar-equipe          # envia para Caio, Priscila e Patricia
   python rotina_comercial_manha.py --operador PRISCILASANTORO --enviar
   python rotina_comercial_manha.py --preview-equipe --enviar  # 3 e-mails só para Caio
 """
@@ -122,6 +122,8 @@ def _gerar_rotina_operador(
 
 def main() -> int:
     args = parse_args()
+    if args.enviar_equipe and not args.preview_equipe:
+        args.enviar = True
     modos = sum(bool(x) for x in (args.preview_equipe, args.enviar_equipe, args.operador))
     if modos > 1:
         print("[ERRO] Use apenas um: --preview-equipe, --enviar-equipe ou --operador.")
@@ -220,8 +222,6 @@ def main() -> int:
         print("\nModo preview. Use --enviar para enviar.")
         if args.preview_equipe:
             print(f"  Preview equipe: 3 e-mails para {DESTINATARIO_PADRAO}")
-        elif args.enviar_equipe:
-            print("  Modo equipe: use --enviar para enviar aos 3 operadores.")
     return 0
 
 
